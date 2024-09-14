@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Approximation of Polynomials</title>
+  <style>
+    /* Set the font family to Arial, sans-serif */
+    body {
+      font-family: Arial, sans-serif;
+    }
+    /* Add margin bottom to the input group */
+    .input-group {
+      margin-bottom: 10px;
+    }
+    /* Make the label display as a block element and add margin bottom */
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Approximation of Polynomials</h1>
+  <h2>using taylor series</h2>
+  <!-- Input group for x value  -->
+  <div class="input-group">
+    <!-- Label for x input -->
+    <label for="x">Enter a value for x:</label>
+    <!-- Input field for x value -->
+    <input type="number" id="x" pattern="[0-9]+">
+  </div>
+  <!-- Input group for degree value -->
+  <div class="input-group">
+    <!-- Label for degree input -->
+    <label for="degree">Enter the degree of the Taylor series expansion:</label>
+    <!-- Input field for degree value -->
+    <input type="number" id="degree" pattern="[0-9]+">
+  </div>
+  <!-- Calculate button -->
+  <button id="calculate">Calculate</button>
+  <!-- Result div to display the output -->
+  <div id="result" aria-label="Result"></div>
+
+  <script>
+    // Define the polynomial function
+    function polynomialFunction(x) {
+      // Return the value of the polynomial function at x
+      return x**3 - 2*x**2 + x - 1;
+    }
+
+    // Define the Taylor series expansion function
+    function calculateTaylorSeries(inputValue, expansionDegree) {
+      // Initialize the sum to 0
+      let sum = 0;
+      // Loop through each term of the Taylor series
+      for (let i = 0; i <= expansionDegree; i++) {
+        // Calculate the factorial of i
+        let factorial = 1;
+        for (let j = 1; j <= i; j++) {
+          factorial *= j;
+        }
+        // Calculate the term of the Taylor series
+        let term = (polynomialFunction(i) / factorial) * (inputValue**i);
+        // Add the term to the sum
+        sum += term;
+      }
+      // Return the sum of the Taylor series
+      return sum;
+    }
+
+    // Get the input elements
+    const inputValueInput = document.getElementById('x');
+    const expansionDegreeInput = document.getElementById('degree');
+    const calculateButton = document.getElementById('calculate');
+    const resultDiv = document.getElementById('result');
+
+    // Add event listener to the calculate button
+    calculateButton.addEventListener('click', () => {
+      // Get the input values from the input fields
+      const inputValue = parseFloat(inputValueInput.value);
+      const expansionDegree = parseInt(expansionDegreeInput.value);
+      // Check if the input values are valid numbers
+      if (isNaN(inputValue) || isNaN(expansionDegree)) {
+        resultDiv.innerText = 'Invalid input values';
+        return;
+      }
+      // Calculate the Taylor series expansion
+      const result = calculateTaylorSeries(inputValue, expansionDegree);
+      // Display the result in the result div
+      resultDiv.innerText = `Approximation of f(${inputValue}) using Taylor series up to degree ${expansionDegree}: ${result}`;
+    });
+  </script>
+</body>
+</html>

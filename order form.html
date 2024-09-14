@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oredering form for computer parts</title>
+    <style>
+
+        /* Add some basic styling to make the form look better */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .order-form {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(50, 50, 50, 0.5);
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            width: 150px;
+        }
+
+        .form-group input {
+            flex: 1;
+        }
+
+        .order-summary {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(50, 50, 50, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Oredering form for computer parts</h1>
+    </header>
+    <main>
+        <section class="order-form">
+            <h2>Order Form</h2>
+            <form id="order-form">
+
+                <div class="form-group">
+                    <label for="customer-name">Customer Name: </label>
+                    <input type="text" id="customer-name" name="customer-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <h3>Components:</h3>
+                <div class="component-selection">
+                    <h4>CPU:</h4>
+                    <select id="cpu" name="cpu">
+                        <option value="">Select CPU</option>
+                        <option value="Intel Core i3" data-price="150">Intel Core i3 ($150)</option>
+                        <option value="Intel Core i5" data-price="250">Intel Core i5 ($250)</option>
+                        <option value="Intel Core i7" data-price="350">Intel Core i7 ($350)</option>
+                        <option value="AMD Ryzen 3" data-price="120">AMD Ryzen 3 ($120)</option>
+                        <option value="AMD Ryzen 5" data-price="200">AMD Ryzen 5 ($200)</option>
+                        <option value="AMD Ryzen 7" data-price="300">AMD Ryzen 7 ($300)</option>
+                    </select>
+
+                    <h4>Motherboard:</h4>
+                    <select id="motherboard" name="motherboard">
+                        <option value="">Select Motherboard</option>
+                        <option value="AMD B450" data-price="100">AMD B450 ($100)</option>
+                        <option value="AMD X570" data-price="250">AMD X570 ($250)</option>
+                        <option value="Intel B460" data-price="120">Intel B460 ($120)</option>
+                        <option value="Intel Z470" data-price="180">Intel B450M ($300)</option>
+                    </select>
+
+                    <h4>RAM:</h4>
+                    <select id="ram" name="ram">
+                        <option value="">Select RAM</option>
+                        <option value="Slow ram 8GB" data-price="60">Slow ram 8GB ($60)
+                        </option>
+                        <option value="Slow ram 16GB" data-price="100">Slow ram 16GB ($100)
+                        </option>
+                        <option value="Fast ram 8GB" data-price="50">Fast ram 8GB ($50)</option>
+                        <option value="Fast ram 16GB" data-price="90">Fast ram 16GB ($90)</option>
+                    </select>
+
+                    <h4>GPU:</h4>
+                    <select id="gpu" name="gpu">
+                        <option value="">Select GPU</option>
+                        <option value="NVIDIA GeForce GTX 1060" data-price="150">NVIDIA GeForce GTX 1060 ($150)</option>
+                        <option value="AMD Radeon RX580" data-price="180">AMD Radeon RX580 ($180)</option>
+                        <option value="NVIDIA GeForce GTX 1070" data-price="250">NVIDIA GeForce GTX 1070 ($250)</option>
+                        
+                    </select>
+
+                    <h4>Storage:</h4>
+                    <select id="storage" name="storage">
+                        <option value="">Select Storage</option>
+                        <option value="HDD 500GB" data-price="50">HDD 500GB ($50)</option>
+                        <option value="HDD 1TB" data-price="80">HDD 1TB ($80)</option>
+                        <option value="SSD 500GB" data-price="100">SSD 500GB ($100)</option>
+                    </select>
+
+                    <h4>Case:</h4>
+                    <select id="case" name="case">
+                        <option value="">Select Case</option>
+                        <option value="Mid-size case" data-price="50">Mid-size case ($50)</option>
+                        <option value="Full-size case" data-price="70">Full-size case ($70)</option>
+                        <option value="Full-size case with RGB lighting" data-price="60">Full-size case with RGB lighting ($60)</option>
+                    </select>
+
+                     <br><br>
+                    <label for="quantity">Quantity: </label> 
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+
+                    <button type="submit">Submit Order</button>
+            </form>
+        </section>
+
+        <section class="order-summary">
+            <h2>Order Summary</h2>
+            <p id="order-summary"></p>
+            <ul id="order-details"></ul>
+            <p id="total-cost"></p>
+        </section>
+
+        <script>
+            const orderForm = document.getElementById('order-form');
+            const orderSummary = document.getElementById('order-summary');
+            const orderDetails = document.getElementById('order-details');
+            const totalCost = document.getElementById('total-cost');
+
+            orderForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const customerName = document.getElementById('customer-name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const quantity = parseInt(document.getElementById('quantity').value);
+
+                const selectedComponents = [];
+                const componentSelects = document.querySelectorAll('select');
+                componentSelects.forEach((select) => {
+                    const selectedOption = select.options[select.selectedIndex];
+                    if (selectedOption.value !== '') {
+                        selectedComponents.push({
+                            name: selectedOption.value,
+                            price: parseInt(selectedOption.dataset.price)
+                        });
+                    }
+                });
+
+                const total = selectedComponents.reduce((acc, component) => acc + component.price * quantity, 0);
+
+                orderSummary.innerText = `Order Summary for ${customerName}`;
+                orderDetails.innerHTML = '';
+                selectedComponents.forEach((component) => {
+                    const li = document.createElement('li');
+                    li.innerText = `${component.name} x ${quantity} = $${component.price * quantity}`;
+                    orderDetails.appendChild(li);
+                });
+                totalCost.innerText = `Total: $${total}`;
+            });
+        </script>
+    </main>
+</body>
+
+</html>
